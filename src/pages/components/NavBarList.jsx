@@ -3,7 +3,7 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 
 const NavBarList = ({
   isDropDownOpened = false,
-  toggleFunction = undefined,
+  toggleFunction = () => {},
   dropKey = "",
   text,
   bgColor = false,
@@ -12,19 +12,18 @@ const NavBarList = ({
     <div>
       <li
         className={`${
-          bgColor ? "hover:bg-gray-200" : "hover:bg-gray-700"
+          bgColor ? "hover:bg-gray-200 text-black" : "hover:bg-gray-700"
         } p-2 duration-200 rounded-md cursor-pointer`}
-        onClick={() => toggleFunction(dropKey)}
+        onClick={() => dropKey && toggleFunction(dropKey)}
       >
-        <span className="flex gap-2">
+        <span className="flex items-center gap-2">
           {text}
-          {dropKey ? (
-            isDropDownOpened[dropKey] ? (
-              <ChevronUp />
+          {dropKey &&
+            (isDropDownOpened ? (
+              <ChevronUp size={16} />
             ) : (
-              <ChevronDown />
-            )
-          ) : null}
+              <ChevronDown size={16} />
+            ))}
         </span>
       </li>
     </div>

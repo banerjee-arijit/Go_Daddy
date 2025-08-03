@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Menu,
   User,
@@ -6,89 +6,73 @@ import {
   CircleX,
   CircleQuestionMark,
 } from "lucide-react";
-import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import NavBarList from "./NavBarList";
 import NavbarDropDownMenu from "./NavbarDropDownMenu";
 
 const Navbar = () => {
-  const [isMenuopen, setIsMenuOpen] = useState(false);
-  const [isDropDownOpened, setIsDropDownOpened] = useState({
-    isDomainOpen: false,
-    isWebsiteAndHoistingOpen: false,
-    isSecurityOpen: false,
-    isMarketingOpen: false,
-  });
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeDropKey, setActiveDropKey] = useState("");
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
 
   const toggleDropDownMenu = (key) => {
-    setIsDropDownOpened((prev) => ({
-      ...prev,
-      [key]: !prev[key],
-    }));
+    setActiveDropKey((prev) => (prev === key ? "" : key));
   };
 
   return (
-    <nav className="w-full max-w-full bg-[#2b2b2b] flex text-white justify-between p-4">
+    <nav className="w-full max-w-full bg-[#2b2b2b] flex text-white justify-between p-4 relative">
       <div className="flex gap-3 items-center">
-        <Menu
-          className="sm:hidden cursor-pointer"
-          onClick={() => toggleMenu()}
-        />
+        <Menu className="sm:hidden cursor-pointer" onClick={toggleMenu} />
         <h3>Go-Daddy</h3>
         <ul className="hidden sm:flex gap-5 ml-10">
           <NavBarList
-            isDropDownOpened={isDropDownOpened}
+            isDropDownOpened={activeDropKey === "isDomainOpen"}
             toggleFunction={toggleDropDownMenu}
-            dropKey={"isDomainOpen"}
-            text={"Domain"}
+            dropKey="isDomainOpen"
+            text="Domain"
           />
           <NavBarList
-            isDropDownOpened={isDropDownOpened}
+            isDropDownOpened={activeDropKey === "isWebsiteAndHoistingOpen"}
             toggleFunction={toggleDropDownMenu}
-            dropKey={"isWebsiteAndHoistingOpen"}
-            text={"Website and Hoisting"}
+            dropKey="isWebsiteAndHoistingOpen"
+            text="Website and Hosting"
           />
-          <NavBarList text={"Email"} />
+          <NavBarList text="Email" />
           <NavBarList
-            isDropDownOpened={isDropDownOpened}
+            isDropDownOpened={activeDropKey === "isSecurityOpen"}
             toggleFunction={toggleDropDownMenu}
-            dropKey={"isSecurityOpen"}
-            text={"Security"}
+            dropKey="isSecurityOpen"
+            text="Security"
           />
           <NavBarList
-            isDropDownOpened={isDropDownOpened}
+            isDropDownOpened={activeDropKey === "isMarketingOpen"}
             toggleFunction={toggleDropDownMenu}
-            dropKey={"isMarketingOpen"}
-            text={"Marketing"}
+            dropKey="isMarketingOpen"
+            text="Marketing"
           />
-          <NavBarList text={"Go-Daddy Airo@"} />
-          <NavBarList text={"Pricing"} />
+          <NavBarList text="Go-Daddy Airo@" />
+          <NavBarList text="Pricing" />
         </ul>
-        {isDropDownOpened["isDomainOpen"] && (
-          <NavbarDropDownMenu dropKey="isDomainOpen" />
-        )}
-        {isDropDownOpened["isWebsiteAndHoistingOpen"] && (
-          <NavbarDropDownMenu dropKey="isWebsiteAndHoistingOpen" />
-        )}
-      </div>
 
-      {/* Responsive List-------------------------------------- */}
+        {/* Only one dropdown rendered */}
+        <NavbarDropDownMenu dropKey={activeDropKey} />
+      </div>
 
       <div className="flex items-center gap-3">
         <User className="sm:hidden" />
         <ul className="hidden sm:flex gap-3">
-          <NavBarList text={"Contact"} />
-          <NavBarList text={"Help"} />
-          <NavBarList text={"Sign In"} />
+          <NavBarList text="Contact" />
+          <NavBarList text="Help" />
+          <NavBarList text="Sign In" />
         </ul>
         <ShoppingCart />
       </div>
+
       <AnimatePresence>
-        {isMenuopen && (
+        {isMenuOpen && (
           <div className="fixed inset-0 backdrop-blur-xs z-40">
             <motion.div
               initial={{ x: -100 }}
@@ -99,23 +83,21 @@ const Navbar = () => {
             >
               <CircleX
                 className="absolute right-3 hover:text-red-500 duration-200 cursor-pointer"
-                onClick={() => toggleMenu()}
+                onClick={toggleMenu}
               />
               <h3 className="font-bold">Go-Daddy</h3>
               <ul className="mt-6">
-                <NavBarList text={"Domain"} bgColor={true} />
-                <NavBarList text={"Website and Hosting"} bgColor={true} />
-                <NavBarList text={"Email"} bgColor={true} />
-                <NavBarList text={"Security"} bgColor={true} />
-                <NavBarList text={"Marketing"} bgColor={true} />
-                <NavBarList text={"Go-Daddy Airo@"} bgColor={true} />
-                <NavBarList text={"Pricing"} bgColor={true} />
+                <NavBarList text="Domain" bgColor />
+                <NavBarList text="Website and Hosting" bgColor />
+                <NavBarList text="Email" bgColor />
+                <NavBarList text="Security" bgColor />
+                <NavBarList text="Marketing" bgColor />
+                <NavBarList text="Go-Daddy Airo@" bgColor />
+                <NavBarList text="Pricing" bgColor />
 
                 <div className="absolute flex flex-col bottom-0 mb-10">
                   <li className="hover:bg-gray-200 p-2 duration-200 rounded-md cursor-pointer flex items-center gap-4">
-                    <span>
-                      <CircleQuestionMark size={20} />
-                    </span>
+                    <CircleQuestionMark size={20} />
                     Help center
                   </li>
                   <li className="hover:bg-gray-200 p-2 duration-200 rounded-md cursor-pointer flex items-center gap-4">
@@ -124,7 +106,7 @@ const Navbar = () => {
                   </li>
                   <li className="hover:bg-gray-200 p-2 duration-200 rounded-md cursor-pointer flex items-center gap-4">
                     <ShoppingCart size={20} />
-                    basket
+                    Basket
                   </li>
                 </div>
               </ul>
