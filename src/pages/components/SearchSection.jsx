@@ -13,7 +13,7 @@ const SearchSection = () => {
       />
       <Button
         size="icon"
-        className=" h-10 w-12 sm:h-11 sm:w-20 absolute right-[calc(19%)] sm:right-[calc(20.7%)] top-1/2 -translate-y-1/2 bg-gray-800 text-white  rounded-md"
+        className=" h-10 w-12 sm:h-11 sm:w-20 absolute right-[calc(16%)] sm:right-[calc(20.7%)] top-1/2 -translate-y-1/2 bg-gray-800 text-white  rounded-md"
       >
         <Search className="w-5 h-5" />
       </Button>

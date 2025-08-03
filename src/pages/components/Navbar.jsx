@@ -23,7 +23,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full max-w-full bg-[#2b2b2b] flex text-white justify-between p-4 relative">
+    <nav className="w-full max-w-full bg-gray-800 flex text-white justify-between p-4 relative">
       <div className="flex gap-3 items-center">
         <Menu className="sm:hidden cursor-pointer" onClick={toggleMenu} />
         <h3>Go-Daddy</h3>
