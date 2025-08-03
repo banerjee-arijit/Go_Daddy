@@ -14,7 +14,7 @@ const NavbarDropDownMenu = ({ dropKey = "" }) => {
           animate={{ y: 0 }}
           exit={{ y: -100 }}
           transition={{ duration: 0.2 }}
-          className="w-full max-w-full absolute left-0 p-20 mt-10 bg-white text-black flex gap-80"
+          className="w-full max-w-full absolute left-0 p-20 mt-10 bg-white text-black flex gap-80 z-50"
         >
           {data.map((section, index) => (
             <div key={index}>
